@@ -1,15 +1,13 @@
 import { Routes } from '@angular/router';
-import { AppComponent } from './app.component';
 
 export const routes: Routes = [
   {
     path: 'pizzeria',
-    component: AppComponent,
-    loadChildren: () => import('./components/auth.routes')
+    loadChildren: () =>
+      import('./components/auth.routes').then((m) => m.default), // Ajuste en la ruta y formato
   },
-
   {
-    path:'*',
-    redirectTo: ''
-  }
+    path: '**', // Redirecciona rutas no encontradas
+    redirectTo: 'pizzeria',
+  },
 ];

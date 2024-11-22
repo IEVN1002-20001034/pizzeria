@@ -1,76 +1,71 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, OnInit } from '@angular/core';
 import { ReactiveFormsModule, FormGroup, FormBuilder } from '@angular/forms';
-import { PedidosComponent } from '../pedidos/pedidos.component';
+import { ListaComponent } from '../lista/lista.component'; // RUTA ACTUALIZADA
+import { ApiserviceService } from '../../services/pizzeria.service'; // RUTA ACTUALIZADA
 
-import { ApiserviceService } from '../../apiservice.service';
-
-interface Pizza{
-  nombre:string,
-  direccion:string,
-  telefono:string ,
-  tamanio:string,
-  jamon:boolean,
-  pina:boolean,
-  champi:boolean,
-  cantidad:number,
-  fecha:Date
+interface Pizza {
+  nombre: string;
+  direccion: string;
+  telefono: string;
+  tamanio: string;
+  jamon: boolean;
+  pina: boolean;
+  champi: boolean;
+  cantidad: number;
+  fecha: Date;
 }
 
 @Component({
   selector: 'app-formulario',
   standalone: true,
-  imports: [ReactiveFormsModule, PedidosComponent],
-  providers:[ApiserviceService],
-  templateUrl: './formulario.component.html',
-  styleUrl: './formulario.component.css'
+  imports: [ReactiveFormsModule, ListaComponent],
+  providers: [ApiserviceService],
+  templateUrl: './pedido.component.html',
+  styleUrls: ['./pedido.component.css'], // Corregido
 })
-export default class FormularioComponent {
-  @ViewChild(PedidosComponent) pedidosComponent!: PedidosComponent;
+export class PedidoComponent implements OnInit {
+  @ViewChild(ListaComponent) pedidosComponent!: ListaComponent;
 
-  formGroup!:FormGroup;
+  formGroup!: FormGroup;
   pizzas: Pizza[] = [];
+
+  constructor(private fb: FormBuilder, private apiservice: ApiserviceService) {}
+
+  pizza: Pizza = {
+    nombre: '',
+    direccion: '',
+    telefono: '',
+    tamanio: '',
+    jamon: false,
+    pina: false,
+    champi: false,
+    cantidad: 0,
+    fecha: new Date(),
+  };
 
   ngOnInit(): void {
     this.formGroup = this.initForm();
   }
 
-  initForm():FormGroup{
+  initForm(): FormGroup {
     return this.fb.group({
-      nombre:[''],
-      direccion:[''],
-      telefono:[''] ,
-      tamanio:[''],
-      jamon:[false],
-      pina:[false],
-      champi:[false],
-      cantidad:[0],
-      fecha: ['']
-    })
+      nombre: [''],
+      direccion: [''],
+      telefono: [''],
+      tamanio: [''],
+      jamon: [false],
+      pina: [false],
+      champi: [false],
+      cantidad: [0],
+      fecha: [''],
+    });
   }
 
-  constructor(private fb:FormBuilder, private apiservice:ApiserviceService){}
-
-  pizza:Pizza = {
-    nombre:'',
-    direccion:'',
-    telefono:'' ,
-    tamanio:'',
-    jamon:false,
-    pina:false,
-    champi:false,
-    cantidad:0,
-    fecha: new Date
-  }
-
-  onSubmit():void{
+  onSubmit(): void {
     this.pizza = this.formGroup.value;
     this.apiservice.addPedido(this.pizza);
     if (this.pedidosComponent) {
       this.pedidosComponent.getPedidos();
     }
-
   }
-
-
-
 }

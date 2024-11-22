@@ -22,7 +22,7 @@ import { VentasComponent } from './componentes/ventas/ventas.component';
 })
 export class AppComponent {
 
-  constructor(private apiService: ApiserviceService){}
+  constructor(private pizzeriaService: ApiserviceService){}
 
   data:any
 
