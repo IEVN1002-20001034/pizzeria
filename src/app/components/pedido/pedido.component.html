@@ -1,0 +1,68 @@
+<form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
+  <div class="grid grid-cols-4 gap-4">
+    <div>
+      <label for="nombre" class="block text-white">Nombre:</label>
+      <input id="nombre" formControlName="nombre" type="text" class="w-full p-2 border rounded" placeholder="María Juárez">
+    </div>
+    <div>
+      <label for="direccion" class="block text-white">Dirección:</label>
+          <input id="direccion" formControlName="direccion" type="text" class="w-full p-2 border rounded" placeholder="5 de mayo">
+      </div>
+      <div>
+          <label for="telefono" class="block text-white">Teléfono:</label>
+          <input id="telefono" formControlName="telefono" type="text" class="w-full p-2 border rounded" placeholder="477-787-23">
+      </div>
+      <div>
+        <label for="fecha" class="block text-white">Fecha:</label>
+        <input id="fecha" formControlName="fecha" type="date" class="w-full p-2 border rounded">
+      </div>
+  </div>
+
+  <div class="grid grid-cols-2 gap-4">
+    <div class="border rounded p-4">
+      <p class="font-bold text-white">Tamaño Pizza</p>
+      <div class="space-y-2">
+        <label class="flex items-center space-x-2">
+          <input type="radio" formControlName="tamanio" value="chica">
+          <span class="text-white">Chica $40</span>
+        </label>
+        <label class="flex items-center space-x-2">
+          <input type="radio" formControlName="tamanio" value="mediana">
+          <span class="text-white">Mediana $80</span>
+        </label>
+        <label class="flex items-center space-x-2">
+          <input type="radio" formControlName="tamanio" value="grande">
+                  <span class="text-white">Grande $120</span>
+              </label>
+          </div>
+      </div>
+
+      <div class="border rounded p-4">
+          <p class="font-bold text-white">Ingredientes</p>
+          <div class="space-y-2">
+              <label class="flex items-center space-x-2">
+                <input type="checkbox" formControlName="jamon" value="jamon">
+                <span class="text-white">Jamón $10</span>
+              </label>
+              <label class="flex items-center space-x-2">
+                <input type="checkbox" formControlName="pina" value="piña">
+                <span class="text-white">Piña $10</span>
+              </label>
+              <label class="flex items-center space-x-2">
+                  <input type="checkbox" formControlName="champi" value="champinones">
+                  <span class="text-white">Champiñones $10</span>
+              </label>
+          </div>
+      </div>
+  </div>
+
+  <div class="flex items-center space-x-4">
+      <label for="numPizzas" class="text-white">Num. de Pizzas:</label>
+      <input id="numPizzas" type="number" formControlName="cantidad" min="1" class="w-16 p-2 border rounded">
+      <button class="bg-gray-300 px-4 py-2 rounded hover:bg-gray-400">Agregar</button>
+  </div>
+</form>
+
+<app-pedidos></app-pedidos>
+
+
