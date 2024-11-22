@@ -1,33 +1,35 @@
-<div *ngIf="filtro === 'dia'">
-  <form [formGroup]="formGroup_dia">
-    <input type="date" formControlName="dia_filtro">
-    <button class="bg-green-500 ml-3 p-2 rounded-lg text-white" (click)="filtrarDia()">Filtrar</button>
-  </form>
-  <p class="font-bold text-center text-lg">Ventas del día</p>
-  <div class="text-center space-y-2" >
-    <div *ngFor="let compra of compras">
-      <p>{{compra.nombre}} ${{compra.sub}}</p>
+
+  
+  <div *ngIf="filtro === 'dia'">
+    <form [formGroup]="formGroup_dia">
+      <input type="date" formControlName="dia_filtro">
+      <button class="bg-yellow-500 ml-3 p-2 rounded-lg text-white" (click)="filtrarDia()">Filtrar</button>
+    </form>
+    <p class="font-bold text-center text-lg">Ventas del día</p>
+    <div class="text-center space-y-2">
+      <div *ngFor="let compra of compras">
+        <p>{{compra.nombre}} ${{compra.sub}}</p>
+      </div>
+
+      <p>ventas totales del dia: {{total}}</p>
     </div>
-
-    <p>ventas totales del dia: {{total}}</p>
+    <button (click)="cambiarestado()" class="w-full bg-orange-400 text-white px-4 py-2 rounded hover:bg-orange-500">Ventas totales por mes</button>
   </div>
-  <button (click)="cambiarestado()" class="w-full bg-gray-400 text-white px-4 py-2 rounded hover:bg-gray-500">Ventas totales por mes  </button>
-</div>
 
-<div *ngIf="filtro === 'mes'">
-  <form [formGroup]="formGroup_mes">
-    <select formControlName="mes_filtro" id="" >
-      <option *ngFor="let mes of meses" [value]="mes.num">{{mes.mes}}</option>
-    </select>
-    <button class="bg-green-500 ml-3 p-2 rounded-lg text-white" (click)="filtrarMes()">Filtrar</button>
-  </form>
-  <p class="font-bold text-center text-lg">Ventas del mes</p>
-  <div class="text-center space-y-2" >
-    <div *ngFor="let compra of compras_mes">
-      <p>{{compra.nombre}} ${{compra.sub}}</p>
+  <div *ngIf="filtro === 'mes'">
+    <form [formGroup]="formGroup_mes">
+      <select formControlName="mes_filtro">
+        <option *ngFor="let mes of meses" [value]="mes.num">{{mes.mes}}</option>
+      </select>
+      <button class="bg-orange-500 ml-3 p-2 rounded-lg text-white" (click)="filtrarMes()">Filtrar</button>
+    </form>
+    <p class="font-bold text-center text-lg">Ventas del mes</p>
+    <div class="text-center space-y-2">
+      <div *ngFor="let compra of compras_mes">
+        <p>{{compra.nombre}} ${{compra.sub}}</p>
+      </div>
+
+      <p>ventas totales del mes: {{total_mes}}</p>
     </div>
-
-    <p>ventas totales del dia: {{total_mes}}</p>
+    <button (click)="cambiarestado()" class="w-full bg-yellow-400 text-white px-4 py-2 rounded hover:bg-yellow-500">Ventas totales por día</button>
   </div>
-  <button (click)="cambiarestado()" class="w-full bg-gray-400 text-white px-4 py-2 rounded hover:bg-gray-500">Ventas totales por día</button>
-</div>

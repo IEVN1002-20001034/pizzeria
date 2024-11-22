@@ -1,35 +1,24 @@
 import { Component, ViewChild, OnInit } from '@angular/core';
 import { ReactiveFormsModule, FormBuilder, FormGroup } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { VentasComponent } from '../venta/venta.component';
-import { ApiserviceService } from '../../services/pizzeria.service'; // RUTA ACTUALIZADA
-
-interface Pizza {
-  nombre: string;
-  direccion: string;
-  telefono: string;
-  tamanio: string;
-  jamon: boolean;
-  pina: boolean;
-  champi: boolean;
-  cantidad: number;
-}
+import { VentaComponent } from '../venta/venta.component';
+import { ApiserviceService } from '../../services/pizzeria.service';
 
 @Component({
-  selector: 'app-pedidos',
+  selector: 'app-lista',
   standalone: true,
   imports: [ReactiveFormsModule, CommonModule, VentaComponent],
   providers: [ApiserviceService],
   templateUrl: './lista.component.html',
-  styleUrls: [], // Corregido
+  styleUrls: [],
 })
 export class ListaComponent implements OnInit {
-  @ViewChild(VentasComponent) ventasComponent!: VentasComponent;
+  @ViewChild(VentaComponent, { static: false }) ventasComponent?: VentaComponent;
   formGroup!: FormGroup;
+  pedidos: any[] = []; // Inicialización correcta del tipo
+  modal_show: boolean = false;
 
   constructor(private fb: FormBuilder, private apiservice: ApiserviceService) {}
-  pedidos: any;
-  modal_show: boolean = false;
 
   initForm(): FormGroup {
     return this.fb.group({
@@ -38,33 +27,44 @@ export class ListaComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.pedidos = this.apiservice.getPedidos();
+    this.getPedidos();
     this.formGroup = this.initForm();
   }
 
   getPedidos(): void {
-    this.pedidos = this.apiservice.getPedidos();
+    try {
+      this.pedidos = this.apiservice.getPedidos();
+    } catch (error) {
+      console.error('Error al obtener los pedidos:', error);
+    }
   }
 
-  delete() {
-    const formdata = this.formGroup.value;
-    this.pedidos = this.apiservice.deletePedidos(formdata);
-    this.pedidos = this.apiservice.getPedidos();
+  delete(): void {
+    const selected = this.formGroup.value.selected;
+    if (!selected) return; // Manejo de caso vacío
+    try {
+      this.apiservice.deletePedidos(selected);
+      this.getPedidos();
+    } catch (error) {
+      console.error('Error al eliminar el pedido:', error);
+    }
   }
 
-  modal_verification() {
+  modal_verification(): void {
     this.modal_show = !this.modal_show;
   }
 
   terminar(): void {
     if (this.pedidos.length > 0) {
-      const terminar_status = this.apiservice.terminarPedido(this.pedidos);
-      if (terminar_status) {
-        this.pedidos = [];
-        this.modal_verification();
-        if (this.ventasComponent) {
-          this.ventasComponent.ngOnInit();
+      try {
+        const terminar_status = this.apiservice.terminarPedido(this.pedidos);
+        if (terminar_status) {
+          this.pedidos = [];
+          this.modal_verification();
+          this.ventasComponent?.ngOnInit();
         }
+      } catch (error) {
+        console.error('Error al terminar el pedido:', error);
       }
     }
   }

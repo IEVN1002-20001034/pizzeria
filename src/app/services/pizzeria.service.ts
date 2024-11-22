@@ -131,6 +131,10 @@ export class ApiserviceService {
 
     return { subtotalPorIdArray, total_total };
   }
+
+
+
+
   procesarCompras(data: any, fecha: any): any {
     const subtotalPorIdArray: { idpedido: string; nombre: string; sub: number }[] = [];
     let fechaHoy = fecha || new Date().toISOString().split('T')[0];
@@ -236,6 +240,5 @@ export class ApiserviceService {
   getPedidos_api(): Observable<any> {
     return this.http.get<any>(`${this.apiurl}/getpedidos`)
   }
-
 
 }

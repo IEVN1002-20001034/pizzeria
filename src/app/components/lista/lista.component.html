@@ -1,63 +1,63 @@
-<div class="bg-gray-100 p-4 rounded border-2 border-black">
+
   <form [formGroup]="formGroup">
-    <table class="w-full bg-white rounded shadow">
+    <table class="w-full bg-blue-100 rounded shadow">
       <thead>
-          <tr class="bg-gray-200">
-              <th class="py-2 px-4"></th>
-              <th class="py-2 px-4">Tamaño</th>
-              <th class="py-2 px-4">Ingredientes</th>
-              <th class="py-2 px-4">Num. Pizzas</th>
-              <th class="py-2 px-4">Subtotal</th>
-          </tr>
+        <tr class="bg-blue-200">
+          <th class="py-2 px-4"></th>
+          <th class="py-2 px-4">Tamaño</th>
+          <th class="py-2 px-4">Ingredientes</th>
+          <th class="py-2 px-4">Num. Pizzas</th>
+          <th class="py-2 px-4">Subtotal</th>
+        </tr>
       </thead>
-  
-        <tbody>
-            <tr *ngFor="let pedido of pedidos">
-                <td class="py-2 px-4 border-t"><input type="radio" formControlName="selected" [value]="pedido.id"></td>
-                <td class="py-2 px-4 border-t">{{pedido.tamanio}}</td>
-                <td class="py-2 px-4 border-t">
-                  <p *ngIf="pedido.pina">Piña</p>
-                  <p *ngIf="pedido.jamon">Jamón</p>
-                  <p *ngIf="pedido.champi">Champiñones</p>
-                </td>
-                <td class="py-2 px-4 border-t">{{pedido.cantidad}}</td>
-                <td class="py-2 px-4 border-t">{{pedido.subtotal}}</td>
-            </tr>
-        </tbody>
-      </table>
-      <div class="flex justify-between mt-4">
-        <button (click)="delete()" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">Quitar</button>
-        <button (click)="modal_verification()" [disabled]="pedidos?.length === 0" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">Terminar</button>
-      </div>
+      <tbody>
+        <tr *ngFor="let pedido of pedidos">
+          <td class="py-2 px-4 border-t">
+            <input type="radio" formControlName="selected" [value]="pedido.id">
+          </td>
+          <td class="py-2 px-4 border-t">{{pedido.tamanio}}</td>
+          <td class="py-2 px-4 border-t">
+            <p *ngIf="pedido.pina">Piña</p>
+            <p *ngIf="pedido.jamon">Jamón</p>
+            <p *ngIf="pedido.champi">Champiñones</p>
+          </td>
+          <td class="py-2 px-4 border-t">{{pedido.cantidad}}</td>
+          <td class="py-2 px-4 border-t">{{pedido.subtotal}}</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="flex justify-between mt-4">
+      <!-- Botón Quitar -->
+      <button (click)="delete()" class="bg-pink-500 text-white px-4 py-2 rounded hover:bg-pink-600">Quitar</button>
+
+      <!-- Botón Terminar -->
+      <button (click)="modal_verification()" [disabled]="pedidos?.length === 0" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Terminar</button>
+    </div>
   </form>
   
-  
-    <div id="popup-modal" *ngIf="modal_show" tabindex="-1" class="overflow-y-auto overflow-x-hidden fixed top-0 right-50 left-50 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
-        <div class="relative p-4 w-full max-w-md max-h-full">
-            <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
-                <button type="button" (click)="modal_verification()" class="absolute top-3 end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="popup-modal">
-                    <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
-                    </svg>
-                    <span class="sr-only">Mensage</span>
-                </button>
-                <div class="p-4 md:p-5 text-center">
-                    <svg class="mx-auto mb-4 text-gray-400 w-12 h-12 dark:text-gray-200" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 11V6m0 8h.01M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
-                    </svg>
-                    <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">¿Quieres terminar tu pedido?</h3>
-                    <button (click)="terminar()"  data-modal-hide="popup-modal" type="button" class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center">
-                        Si, estoy seguro
-                    </button>
-                    <button (click)="modal_verification()" data-modal-hide="popup-modal" type="button" class="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
-                      No, cancelar</button>
-                </div>
-            </div>
+  <!-- Modal de verificación con Flowbite -->
+  <div id="popup-modal" *ngIf="modal_show" tabindex="-1" class="overflow-y-auto overflow-x-hidden fixed inset-0 z-50 justify-center items-center w-full h-full bg-gray-800 bg-opacity-50">
+    <div class="relative p-4 w-full max-w-md max-h-full">
+      <div class="relative bg-white rounded-lg shadow">
+        <button type="button" (click)="modal_verification()" class="absolute top-3 right-3 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 inline-flex justify-center items-center">
+          <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+          </svg>
+          <span class="sr-only">Cerrar</span>
+        </button>
+        <div class="p-4 md:p-5 text-center">
+          <svg class="mx-auto mb-4 text-gray-400 w-12 h-12" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 11V6m0 8h.01M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
+          </svg>
+          <h3 class="mb-5 text-lg font-normal text-gray-500">¿Quieres terminar tu pedido?</h3>
+          <button (click)="terminar()" type="button" class="text-white bg-red-600 hover:bg-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5">
+            Si, estoy seguro
+          </button>
+          <button (click)="modal_verification()" type="button" class="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700">
+            No, cancelar
+          </button>
         </div>
+      </div>
     </div>
-    </div>
-  
-    <div class="bg-gray-300 p-4 mt-3.5 rounded border-2 border-yellow-500 space-y-4">
-      <app-ventas></app-ventas>
-    </div>
-  
+  </div>

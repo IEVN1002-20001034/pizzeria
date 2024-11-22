@@ -16,12 +16,12 @@ interface Pizza {
 }
 
 @Component({
-  selector: 'app-formulario',
+  selector: 'app-pedido',
   standalone: true,
   imports: [ReactiveFormsModule, ListaComponent],
   providers: [ApiserviceService],
   templateUrl: './pedido.component.html',
-  styleUrls: ['./pedido.component.css'], // Corregido
+  styleUrls: [], 
 })
 export class PedidoComponent implements OnInit {
   @ViewChild(ListaComponent) pedidosComponent!: ListaComponent;
